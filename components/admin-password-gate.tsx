@@ -70,7 +70,6 @@ export function AdminPasswordGate({ children }: AdminPasswordGateProps) {
             <Button type="submit" className="w-full">
               Access Dashboard
             </Button>
-            <p className="text-xs text-muted-foreground text-center mt-2">Password: Chegg@2025</p>
           </form>
         </CardContent>
       </Card>
