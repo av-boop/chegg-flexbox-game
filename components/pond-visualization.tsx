@@ -2,6 +2,20 @@
 
 import { useMemo, useEffect, useState } from "react"
 import type { Level } from "@/lib/levels"
+// Valid CSS values for flexbox properties
+const validCSSValues: Record<string, string[]> = {
+  'justify-content': ['flex-start', 'flex-end', 'center', 'space-between', 'space-around', 'space-evenly'],
+  'align-items': ['flex-start', 'flex-end', 'center', 'stretch', 'baseline'],
+  'flex-direction': ['row', 'row-reverse', 'column', 'column-reverse'],
+  'flex-wrap': ['nowrap', 'wrap', 'wrap-reverse'],
+  'align-content': ['flex-start', 'flex-end', 'center', 'stretch', 'space-between', 'space-around'],
+}
+// Check if CSS value is valid for the property
+const isValidCSSValue = (property: string, value: string): boolean => {
+  const validValues = validCSSValues[property.toLowerCase()]
+  if (!validValues) return true // Allow unknown properties
+  return validValues.includes(value.toLowerCase())
+}
 
 interface EmojiVisualizationProps {
   level: Level
@@ -38,6 +52,9 @@ export function PondVisualization({ level, userCode, isCorrect }: EmojiVisualiza
         const match = line.match(/^\s*([a-z-]+)\s*:\s*([^;]+);?\s*$/i)
         if (match) {
           const [, property, value] = match
+          if (!trimmedValue || !isValidCSSValue(property, trimmedValue)) {    
+           return   
+            }
           const trimmedValue = value.trim()
           if (trimmedValue) {
             const camelCaseProperty = convertCSSPropertyName(property.trim())
