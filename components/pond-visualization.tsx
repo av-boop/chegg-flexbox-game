@@ -52,10 +52,11 @@ export function PondVisualization({ level, userCode, isCorrect }: EmojiVisualiza
         const match = line.match(/^\s*([a-z-]+)\s*:\s*([^;]+);?\s*$/i)
         if (match) {
           const [, property, value] = match
+          const trimmedValue = value.trim()
           if (!trimmedValue || !isValidCSSValue(property, trimmedValue)) {    
            return   
             }
-          const trimmedValue = value.trim()
+          
           if (trimmedValue) {
             const camelCaseProperty = convertCSSPropertyName(property.trim())
             styles[camelCaseProperty] = trimmedValue
