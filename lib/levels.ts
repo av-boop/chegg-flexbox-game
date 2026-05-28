@@ -65,7 +65,7 @@ export const levels: Level[] = [
   {
     id: 4,
     description:
-      "Now with multiple students! Use justify-content: space-between to create equal spacing between items, pushing them to opposite ends.",
+      "Now with multiple students! Use justify-content property to create equal spacing between items, pushing them to opposite ends.",
     targetSelector: "#student-container",
     solution: "justify-content: space-between;",
     students: [{ color: "oklch(0.75 0.15 40)" }, { color: "oklch(0.75 0.15 60)" }],
