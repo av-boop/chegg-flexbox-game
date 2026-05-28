@@ -133,6 +133,12 @@ export default function FlexboxGame() {
       setSessionStartTime(Date.now())
     }
   }
+  // Values that look visually similar for single items
+const visuallyEquivalentValues: Record<string, string[]> = {
+  'center': ['space-around', 'space-evenly'],
+  'flex-start': ['space-between'],
+  'flex-end': [],
+}
 
   const checkSolution = async () => {
     const normalizedUserCode = userCode.trim().replace(/\s+/g, " ")
@@ -190,8 +196,28 @@ export default function FlexboxGame() {
       userKeys.every((key, index) => key === solutionKeys[index]) &&
       userKeys.every((key) => userProperties[key] === solutionProperties[key])
 
-    setIsCorrect(correct)
     setHasChecked(true)
+ 
+// Check if visually correct but using wrong property value
+if (!correct) {
+  const userProperties = parseCSSProperties(userCode)
+  const solutionProperties = parseCSSProperties(level.solution)
+ 
+  // Check each solution property
+  for (const [prop, expectedValue] of Object.entries(solutionProperties)) {
+    const userValue = userProperties[prop]
+    const equivalentValues = visuallyEquivalentValues[expectedValue] || []
+ 
+    if (userValue && equivalentValues.includes(userValue)) {
+      setIsCorrect(false)
+      // Show helpful message - you can customize how this is displayed
+      alert(`Looks correct visually because there's only one student - but "${userValue}" is not the right answer. When there's a single item, many values appear similar. This level specifically teaches you to use exact value to align in center`);
+      return
+    }
+  }
+}
+ 
+setIsCorrect(correct)
 
     if (correct) {
       setShowCelebration(true)
